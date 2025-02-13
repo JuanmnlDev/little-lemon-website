@@ -1,4 +1,5 @@
 import { FaCartShopping, FaUser } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 const Header = () => {
 	return (
 		<header className="flex justify-between">
@@ -21,7 +22,9 @@ const Header = () => {
 							<FaCartShopping />
 						</li>
 						<li className="p-2">
-							<FaUser />
+							<Link to="/login">
+								<FaUser />
+							</Link>
 						</li>
 					</ul>
 				</nav>
