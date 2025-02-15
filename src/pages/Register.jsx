@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../slice/userSlice";
 import api from "../api/axios";
 import Main from "../layout/Main";
 
 export default function Register() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
@@ -44,10 +47,18 @@ export default function Register() {
 
 		setIsLoading(true);
 		try {
-			const response = await api.post("/register", formData);
-			localStorage.setItem("token", response.data.token);
-			localStorage.setItem("user", JSON.stringify(response.data.user));
-			navigate("/dashboard");
+			const response = await api.post(
+				import.meta.env.VITE_RESTFUL_API_REGISTER,
+				formData
+			);
+			// Dispatch to Redux instead of using localStorage
+			dispatch(
+				setCredentials({
+					user: response.data.user,
+					token: response.data.token,
+				})
+			);
+			navigate("/");
 		} catch (error) {
 			setErrors({
 				api: error.response?.data?.message || "An error occurred",
@@ -60,7 +71,7 @@ export default function Register() {
 
 	return (
 		<Main>
-			<div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+			<div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-md w-full space-y-8">
 					<div>
 						<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">

@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../slice/userSlice";
 import api from "../api/axios";
 import Main from "../layout/Main";
 
 export default function Login() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
@@ -35,10 +38,18 @@ export default function Login() {
 
 		setIsLoading(true);
 		try {
-			const response = await api.post("/login", formData);
-			localStorage.setItem("token", response.data.token);
-			localStorage.setItem("user", JSON.stringify(response.data.user));
-			navigate("/dashboard"); // Redirect to dashboard after login
+			const response = await api.post(
+				import.meta.env.VITE_RESTFUL_API_LOGIN,
+				formData
+			);
+			// Dispatch to Redux instead of using localStorage
+			dispatch(
+				setCredentials({
+					user: response.data.user,
+					token: response.data.token,
+				})
+			);
+			navigate("/"); // Redirect to home after login
 		} catch (error) {
 			setErrors({
 				api: error.response?.data?.message || "An error occurred",
@@ -50,7 +61,7 @@ export default function Login() {
 
 	return (
 		<Main>
-			<div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+			<div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
 				<div className="max-w-md w-full space-y-8">
 					<div>
 						<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
