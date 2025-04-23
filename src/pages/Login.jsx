@@ -128,7 +128,7 @@ export default function Login() {
 						</div>
 					</form>
 					{/* Or register */}
-					<p>
+					<p className="text-center">
 						Or{" "}
 						<Link className="underline" to="/register">
 							register
