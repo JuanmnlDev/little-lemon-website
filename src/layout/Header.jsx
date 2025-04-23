@@ -20,7 +20,7 @@ const Header = () => {
 	};
 
 	return (
-		<header className="flex justify-between">
+		<header className="flex justify-between bg-green-100">
 			{/* Logo */}
 			<img src="" alt="logo" />
 			<div className="navigation flex">
@@ -31,16 +31,13 @@ const Header = () => {
 							<Link to="/">Home</Link>
 						</li>
 						<li className="p-2">Our recipes</li>
-						<li className="p-2">Reserve now</li>
+						<li className="p-2"><Link to="/booking">Reserve now</Link></li>
 						<li className="p-2">Contact us</li>
 					</ul>
 				</nav>
 				{/* User navigation */}
 				<nav id="user-navigation">
 					<ul className="flex">
-						<li className="p-2">
-							<FaCartShopping />
-						</li>
 						{isAuthenticated ? (
 							<li className="relative group p-2">
 								<div className="cursor-pointer flex items-center">
