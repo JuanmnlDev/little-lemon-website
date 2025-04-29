@@ -1,0 +1,39 @@
+{
+	"recipes": [
+		{
+			"id": 1,
+			"title": "Mediterranean Pasta",
+			"image": "/path-to-image.jpg",
+			"rating": 4,
+			"description": "Fresh Mediterranean pasta with olive oil and herbs."
+		},
+		{
+			"id": 2,
+			"title": "Mediterranean Pasta",
+			"image": "/path-to-image.jpg",
+			"rating": 4,
+			"description": "Fresh Mediterranean pasta with olive oil and herbs."
+		},
+		{
+			"id": 3,
+			"title": "Mediterranean Pasta",
+			"image": "/path-to-image.jpg",
+			"rating": 4,
+			"description": "Fresh Mediterranean pasta with olive oil and herbs."
+		},
+		{
+			"id": 4,
+			"title": "Mediterranean Pasta",
+			"image": "/path-to-image.jpg",
+			"rating": 4,
+			"description": "Fresh Mediterranean pasta with olive oil and herbs."
+		},
+		{
+			"id": 5,
+			"title": "Mediterranean Pasta",
+			"image": "/path-to-image.jpg",
+			"rating": 4,
+			"description": "Fresh Mediterranean pasta with olive oil and herbs."
+		}
+	]
+}

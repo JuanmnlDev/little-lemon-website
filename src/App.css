@@ -6,7 +6,9 @@
 }
 
 :root {
-	--main-green: "#495e57";
+	--main-green: #c8f4c6;
+	--main-yellow: #f4ce14;
+	--font-green: #175630;
 }
 
 * {
@@ -34,7 +36,19 @@
 	}
 }
 
-a {
-	color: var(--main-green);
+h1 {
+	font-size: 2.6rem;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+h2 {
+	font-size: 2.2rem;
+}
+
+a,
+label {
+	color: var(--font-green);
+	font-weight: 600;
 	font-size: 1.1rem;
 }

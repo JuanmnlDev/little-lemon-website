@@ -6,7 +6,7 @@ import MobileNavigation from "../components/MobileNavigation";
 
 const Header = () => {
 	return (
-		<header className="border-b border-b-zinc-300">
+		<header className="border-b border-b-zinc-200">
 			<div className="container mx-auto flex justify-between">
 				{/* Logo */}
 				<Link to="/" alt="logo">

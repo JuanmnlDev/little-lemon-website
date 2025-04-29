@@ -1,9 +1,12 @@
+import HorizontalSlider from "../components/HorizontalSlider";
 import Main from "../layout/Main";
 
 const Home = () => {
 	return (
 		<Main>
-			<div id="home"></div>
+			<div id="home">
+				<HorizontalSlider />
+			</div>
 		</Main>
 	);
 };

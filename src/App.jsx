@@ -9,6 +9,7 @@ const Home = React.lazy(() => import("./pages/Home"));
 const Login = React.lazy(() => import("./pages/Login"));
 const Register = React.lazy(() => import("./pages/Register"));
 const Booking = React.lazy(() => import("./pages/Booking"));
+const Recipes = React.lazy(() => import("./pages/Recipes"));
 
 function App() {
 	return (
@@ -20,6 +21,7 @@ function App() {
 						<Route path="/login" element={<Login />} />
 						<Route path="/register" element={<Register />} />
 						<Route path="/booking" element={<Booking />} />
+						<Route path="/recipes" element={<Recipes />} />
 					</Routes>
 				</Router>
 			</PersistGate>
