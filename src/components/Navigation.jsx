@@ -14,7 +14,6 @@ const Navigation = () => {
 					<li className="p-2">
 						<Link to="/booking">Reserve now</Link>
 					</li>
-					<li className="p-2">Contact us</li>
 				</ul>
 			</nav>
 		</div>

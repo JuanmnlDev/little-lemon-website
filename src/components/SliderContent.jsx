@@ -78,7 +78,12 @@ const SliderContent = ({ caption, image, isActive }) => {
 				justifyContent: "center",
 				alignItems: "center",
 				opacity: isActive ? 1 : 0.5,
-				height: "90vh",
+				height:
+					window.innerWidth < 768
+						? "35vh"
+						: window.innerWidth <= 1024
+						? "50vh"
+						: "90vh",
 				width: "100vw",
 				transition: "opacity 0.5s ease-in-out",
 				cursor: "pointer",
@@ -98,7 +103,7 @@ const SliderContent = ({ caption, image, isActive }) => {
 				alt={caption}
 				style={{ width: "100%", height: "100%" }}
 			/>
-			<div className="caption absolute top-[50%] -translate-y-[50%] left-[200px]">
+			<div className="caption absolute top-[50%] -translate-y-[50%] lg:left-[100px] lg:w-[80%] xl:w-auto">
 				<div
 					className="inner-caption"
 					dangerouslySetInnerHTML={{ __html: caption }}

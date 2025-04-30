@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Recipe from "./pages/Recipe";
 
 const Home = React.lazy(() => import("./pages/Home"));
 const Login = React.lazy(() => import("./pages/Login"));
@@ -22,6 +23,7 @@ function App() {
 						<Route path="/register" element={<Register />} />
 						<Route path="/booking" element={<Booking />} />
 						<Route path="/recipes" element={<Recipes />} />
+						<Route path="/recipe" element={<Recipe />} />
 					</Routes>
 				</Router>
 			</PersistGate>

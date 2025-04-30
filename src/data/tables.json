@@ -1,0 +1,32 @@
+{
+	"tables": [
+		{
+			"id": 1,
+			"title": "Table 1",
+			"image": "/path-to-image.jpg",
+			"guests": 4,
+			"description": "Elit officia ex fugiat mollit."
+		},
+		{
+			"id": 2,
+			"title": "Table 2",
+			"image": "/path-to-image.jpg",
+			"guests": 4,
+			"description": "Labore culpa ad aliquip esse minim quis incididunt duis nostrud non Lorem."
+		},
+		{
+			"id": 3,
+			"title": "Table 3",
+			"image": "/path-to-image.jpg",
+			"guests": 3,
+			"description": "Consectetur laboris reprehenderit irure in voluptate eiusmod fugiat anim cupidatat veniam."
+		},
+		{
+			"id": 4,
+			"title": "Table 4",
+			"image": "/path-to-image.jpg",
+			"guests": 2,
+			"description": "Mollit reprehenderit incididunt consectetur culpa aute exercitation."
+		}
+	]
+}

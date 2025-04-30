@@ -52,3 +52,13 @@ label {
 	font-weight: 600;
 	font-size: 1.1rem;
 }
+
+.btn {
+	border-radius: 15px;
+	height: 40px;
+	line-height: 40px;
+}
+
+.btn-primary {
+	background-color: var(--main-green);
+}

@@ -26,11 +26,12 @@ const MobileNavigation = () => {
 					<li className="p-2 w-full">
 						<Link to="/">Home</Link>
 					</li>
-					<li className="p-2 w-full">Our recipes</li>
+					<li className="p-2 w-full">
+						<Link to="/recipes">Our recipes</Link>
+					</li>
 					<li className="p-2 w-full">
 						<Link to="/booking">Reserve now</Link>
 					</li>
-					<li className="p-2 w-full">Contact us</li>
 				</ul>
 			</nav>
 		</div>
