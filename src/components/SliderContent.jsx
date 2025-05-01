@@ -1,76 +1,5 @@
-import { useState } from "react";
-
 // eslint-disable-next-line react/prop-types
 const SliderContent = ({ caption, image, isActive }) => {
-	const [isFullScreen, setIsFullScreen] = useState(false);
-
-	const handleImageClick = () => {
-		setIsFullScreen(!isFullScreen);
-	};
-
-	const handleClose = () => {
-		setIsFullScreen(false);
-	};
-
-	if (isFullScreen) {
-		return (
-			<div
-				style={{
-					position: "fixed",
-					top: 0,
-					left: 0,
-					width: "100vw",
-					height: "100vh",
-					backgroundColor: "rgba(0, 0, 0, 0.9)",
-					zIndex: 1000,
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "center",
-					alignItems: "center",
-				}}
-			>
-				<button
-					onClick={handleClose}
-					style={{
-						position: "absolute",
-						top: "20px",
-						right: "20px",
-						background: "white",
-						border: "none",
-						borderRadius: "50%",
-						width: "40px",
-						height: "40px",
-						cursor: "pointer",
-						fontSize: "20px",
-					}}
-					aria-label="Close fullscreen view"
-				>
-					×
-				</button>
-				<img
-					src={image}
-					alt={caption}
-					style={{
-						maxWidth: "90vw",
-						maxHeight: "90vh",
-						objectFit: "contain",
-					}}
-				/>
-				{caption && (
-					<div
-						style={{
-							color: "white",
-							padding: "20px",
-							textAlign: "center",
-						}}
-					>
-						{caption}
-					</div>
-				)}
-			</div>
-		);
-	}
-
 	return (
 		<div
 			style={{
@@ -88,14 +17,8 @@ const SliderContent = ({ caption, image, isActive }) => {
 				transition: "opacity 0.5s ease-in-out",
 				cursor: "pointer",
 			}}
-			onClick={handleImageClick}
 			role="button"
 			tabIndex={0}
-			onKeyDown={(e) => {
-				if (e.key === "Enter" || e.key === " ") {
-					handleImageClick();
-				}
-			}}
 			className="relative"
 		>
 			<img
@@ -108,6 +31,12 @@ const SliderContent = ({ caption, image, isActive }) => {
 					className="inner-caption"
 					dangerouslySetInnerHTML={{ __html: caption }}
 				/>
+				<a
+					href="/booking"
+					className="btn btn-primary block w-48 text-center mt-4"
+				>
+					Reserve a table
+				</a>
 			</div>
 		</div>
 	);

@@ -8,7 +8,8 @@
 :root {
 	--main-green: #c8f4c6;
 	--main-yellow: #f4ce14;
-	--font-green: #175630;
+	--main-green: #175630;
+	--main-gray: #cfcece;
 }
 
 * {
@@ -48,17 +49,28 @@ h2 {
 
 a,
 label {
-	color: var(--font-green);
+	color: var(--main-green);
 	font-weight: 600;
 	font-size: 1.1rem;
 }
 
 .btn {
-	border-radius: 15px;
+	border-radius: 20px;
 	height: 40px;
 	line-height: 40px;
+	font-size: 0.9rem;
 }
 
 .btn-primary {
-	background-color: var(--main-green);
+	background-color: var(--main-yellow);
+	color: black;
+}
+
+.btn-secondary {
+	background-color: var(--main-gray);
+	color: var(--main-green);
+}
+
+#cart-icon {
+	color: var(--main-green);
 }

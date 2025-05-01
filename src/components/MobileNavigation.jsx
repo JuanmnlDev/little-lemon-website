@@ -1,40 +1,62 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+import { IoMdCloseCircleOutline, IoMdMenu } from "react-icons/io";
+
 const MobileNavigation = () => {
-	const [open, setOpen] = useState(true);
+	const [open, setOpen] = useState(false); // Start with the menu closed
+
 	const toggleMenu = () => {
 		setOpen(!open);
 	};
+
 	return (
-		<div
-			className={twMerge(
-				"navigation py-6 h-screen fixed top-0 w-3/4",
-				open ? "left-0" : "-left-3/4"
-			)}
-		>
-			{/* mobile main navigation */}
-			<nav id="mobile-main-navigation">
+		<>
+			{/* Toggle button */}
+			<button
+				className="fixed top-4 right-4 z-50 bg-gray-600 text-white p-2 rounded-md"
+				onClick={toggleMenu}
+			>
+				<IoMdMenu size={24} />
+			</button>
+
+			{/* Sliding navigation */}
+			<div
+				className={twMerge(
+					"navigation py-6 h-screen fixed top-0 w-3/4 bg-white shadow-lg transition-transform duration-300 z-40",
+					open ? "translate-x-0" : "-translate-x-full"
+				)}
+			>
+				{/* Close button */}
 				<button
-					className="absolute top-0 left-3/4"
-					onClick={() => toggleMenu()}
+					className="absolute top-4 right-4 text-gray-800"
+					onClick={toggleMenu}
 				>
-					<IoMdCloseCircleOutline />
+					<IoMdCloseCircleOutline size={24} />
 				</button>
-				<ul className="flex flex-wrap gap-x-2 bg-white">
-					<li className="p-2 w-full">
-						<Link to="/">Home</Link>
-					</li>
-					<li className="p-2 w-full">
-						<Link to="/recipes">Our recipes</Link>
-					</li>
-					<li className="p-2 w-full">
-						<Link to="/booking">Reserve now</Link>
-					</li>
-				</ul>
-			</nav>
-		</div>
+
+				{/* Navigation links */}
+				<nav id="mobile-main-navigation">
+					<ul className="flex flex-col gap-y-4 p-4">
+						<li>
+							<Link to="/" onClick={toggleMenu}>
+								Home
+							</Link>
+						</li>
+						<li>
+							<Link to="/recipes" onClick={toggleMenu}>
+								Our recipes
+							</Link>
+						</li>
+						<li>
+							<Link to="/our-tables" onClick={toggleMenu}>
+								Our tables
+							</Link>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</>
 	);
 };
 

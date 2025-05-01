@@ -56,6 +56,7 @@ const RecipesList = ({ limit = null }) => {
 						image={recipe.image}
 						rating={recipe.rating}
 						description={recipe.description}
+						price={recipe.price}
 					/>
 				))}
 			</div>

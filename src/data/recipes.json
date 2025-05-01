@@ -5,6 +5,7 @@
 			"title": "Mediterranean Pasta",
 			"image": "/path-to-image.jpg",
 			"rating": 4,
+			"price": 12.2,
 			"description": "Fresh Mediterranean pasta with olive oil and herbs."
 		},
 		{
@@ -12,6 +13,7 @@
 			"title": "Mediterranean Pasta",
 			"image": "/path-to-image.jpg",
 			"rating": 3.2,
+			"price": 12.2,
 			"description": "Fresh Mediterranean pasta with olive oil and herbs."
 		},
 		{
@@ -19,6 +21,7 @@
 			"title": "Mediterranean Pasta",
 			"image": "/path-to-image.jpg",
 			"rating": 4.4,
+			"price": 12.2,
 			"description": "Fresh Mediterranean pasta with olive oil and herbs."
 		},
 		{
@@ -26,6 +29,7 @@
 			"title": "Mediterranean Pasta",
 			"image": "/path-to-image.jpg",
 			"rating": 4.8,
+			"price": 12.2,
 			"description": "Fresh Mediterranean pasta with olive oil and herbs."
 		},
 		{
@@ -33,6 +37,7 @@
 			"title": "Mediterranean Pasta",
 			"image": "/path-to-image.jpg",
 			"rating": 2.2,
+			"price": 12.2,
 			"description": "Fresh Mediterranean pasta with olive oil and herbs."
 		}
 	]

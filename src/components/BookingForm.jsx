@@ -1,13 +1,18 @@
 import { useState } from "react";
+import { useReservationContext } from "../GlobalContext";
+import tables from "../data/tables.json";
 import "../styles/BookingForm.css";
 
-const BookingForm = () => {
+// eslint-disable-next-line react/prop-types
+const BookingForm = ({ id = null }) => {
+	const { state, dispatch } = useReservationContext(); // Access the dispatch function
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
 		date: "",
 		time: "",
 		guests: "2",
+		tableId: id !== null ? id : 1,
 		occasion: "regular",
 	});
 
@@ -29,6 +34,22 @@ const BookingForm = () => {
 		if (!formData.time) {
 			newErrors.time = "Time is required";
 		}
+
+		// Check for conflicting reservations
+		if (state.reservations !== undefined) {
+			const isConflict = state.reservations.some(
+				(reservation) =>
+					reservation.date === formData.date &&
+					reservation.time === formData.time &&
+					reservation.tableId === formData.tableId
+			);
+
+			if (isConflict) {
+				newErrors.conflict =
+					"This table is already reserved at the selected time.";
+			}
+		}
+
 		return newErrors;
 	};
 
@@ -45,6 +66,9 @@ const BookingForm = () => {
 		const validationErrors = validateForm();
 
 		if (Object.keys(validationErrors).length === 0) {
+			// Dispatch the reservation to the global state
+			dispatch({ type: "ADD_RESERVATION", payload: formData });
+
 			// Handle form submission here
 			console.log("Form submitted:", formData);
 			// Reset form
@@ -129,7 +153,7 @@ const BookingForm = () => {
 						type="time"
 						id="time"
 						name="time"
-						value={formData.time}
+						defaultValue={formData.time}
 						onChange={handleInputChange}
 						aria-label="Reservation time"
 						aria-required="true"
@@ -140,6 +164,23 @@ const BookingForm = () => {
 							{errors.time}
 						</span>
 					)}
+				</div>
+
+				<div className="form-group">
+					<label htmlFor="table">Table</label>
+					<select
+						id="table"
+						name="table"
+						value={formData.tableId}
+						onChange={handleInputChange}
+						aria-label="Table id"
+					>
+						{tables.tables.map((table) => (
+							<option key={`table-${table.id}`} value={table.id}>
+								{table.title}
+							</option>
+						))}
+					</select>
 				</div>
 
 				<div className="form-group">
@@ -178,7 +219,7 @@ const BookingForm = () => {
 				<button
 					type="submit"
 					aria-label="Submit reservation"
-					className="submit-button"
+					className="btn btn-primary w-full font-bold text-lg"
 				>
 					Reserve Table
 				</button>

@@ -1,7 +1,7 @@
 // components/RecipeCard.jsx
 // eslint-disable-next-line react/prop-types
-const RecipeCard = ({ id, title, image, rating, description }) => {
-	const searchParams = `?id=${id}&title=${title}&image=${title}&description${description}`;
+const RecipeCard = ({ id, title, image, rating, description, price }) => {
+	const searchParams = `?id=${id}&title=${title}&image=${title}&description=${description}&price=${price}`;
 	return (
 		<div className="recipe-card">
 			<img src={image} alt={title} className="recipe-image" />
@@ -20,6 +20,13 @@ const RecipeCard = ({ id, title, image, rating, description }) => {
 					))}
 				</div>
 				<p className="recipe-description">{description}</p>
+				<br />
+				<span className="price text-sm py-[4px] px-[10px] bg-[#F4CE14] text-[#333] rounded-full">
+					{new Intl.NumberFormat("en-US", {
+						style: "currency",
+						currency: "USD",
+					}).format(price)}
+				</span>
 			</div>
 		</div>
 	);

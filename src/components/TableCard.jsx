@@ -9,10 +9,10 @@ const TableCard = ({ id, title, image, description }) => {
 				<p className="table-description">{description}</p>
 			</div>
 			<a
-				href={`/booking?tableId${id}`}
+				href={`/booking?table_id=${id}`}
 				className="btn btn-primary left-[50%] -translate-x-[50%] block w-48 text-center absolute bottom-4"
 			>
-				Book this table
+				Reserve this table
 			</a>
 		</div>
 	);

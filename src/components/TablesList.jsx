@@ -44,7 +44,7 @@ const TablesList = ({ limit = null }) => {
 	}
 
 	return (
-		<div className="tables-container border-t border-t-zinc-200">
+		<div className="tables-container">
 			<div className="tables-grid">
 				{currentTables.map((recipe) => (
 					<TableCard
