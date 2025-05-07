@@ -8,7 +8,7 @@ const Booking = () => {
 	const table_id = searchParams.get("table_id");
 	return (
 		<Main>
-			<div className="container mx-auto">
+			<div className="container mx-auto" data-testid="booking-page">
 				<a
 					href="/our-tables"
 					className="p-2 ml-2 mt-4 bg-zinc-300 w-20 rounded-full flex justify-around"
