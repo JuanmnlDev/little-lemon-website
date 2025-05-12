@@ -1,13 +1,14 @@
 // pages/Tables.jsx
 import { useState, useEffect } from "react";
 import TableCard from "../components/TableCard";
-import data from "../data/tables.json";
 import "../styles/Tables.css";
+import api from "../api/axios";
 
 // eslint-disable-next-line react/prop-types
 const TablesList = ({ limit = null }) => {
 	const [tables, setTables] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [currentTables, setCurrentTables] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const tablesPerPage = 8; // 2 rows of 4 tables
@@ -19,7 +20,10 @@ const TablesList = ({ limit = null }) => {
 			setLoading(true);
 			try {
 				// Simulate API call
-				setTables(data.tables);
+				const data = await api
+					.get(import.meta.env.VITE_RESTFUL_API_TABLES)
+					.then((response) => response.data);
+				setTables(data.data);
 			} catch (error) {
 				console.error("Error fetching tables:", error);
 			}
@@ -32,9 +36,17 @@ const TablesList = ({ limit = null }) => {
 	// Get current tables
 	const indexOfLastTable = currentPage * tablesPerPage;
 	const indexOfFirstTable = indexOfLastTable - tablesPerPage;
-	let currentTables = tables.slice(indexOfFirstTable, indexOfLastTable);
-	if (limit !== null)
-		currentTables = tables.slice(0, limit).sort((a, b) => a.rating > b.rating);
+
+	useEffect(() => {
+		if (tables.length > 0) {
+			let tmpCurrentTables = tables.slice(indexOfFirstTable, indexOfLastTable);
+			if (limit !== null)
+				tmpCurrentTables = tables
+					.slice(0, limit)
+					.sort((a, b) => a.rating > b.rating);
+			setCurrentTables(tmpCurrentTables);
+		}
+	}, [tables]);
 
 	// Change page
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);

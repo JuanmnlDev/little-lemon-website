@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 	user: null,
 	token: null,
+	profile: null,
 	isAuthenticated: false,
 };
 
@@ -11,9 +12,10 @@ const userSlice = createSlice({
 	initialState,
 	reducers: {
 		setCredentials: (state, action) => {
-			const { user, token } = action.payload;
+			const { user, token, profile } = action.payload;
 			state.user = user;
 			state.token = token;
+			state.profile = profile;
 			state.isAuthenticated = true;
 		},
 		logout: (state) => {
@@ -31,3 +33,4 @@ export default userSlice.reducer;
 export const selectCurrentUser = (state) => state.user.user;
 export const selectCurrentToken = (state) => state.user.token;
 export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
+export const selectUserProfile = (state) => state.user.profile;

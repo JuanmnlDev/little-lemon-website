@@ -1,13 +1,14 @@
 // pages/Recipes.jsx
 import { useState, useEffect } from "react";
 import RecipeCard from "../components/RecipeCard";
-import data from "../data/recipes.json";
+import api from "../api/axios";
 import "../styles/Recipes.css";
 
 // eslint-disable-next-line react/prop-types
 const RecipesList = ({ limit = null }) => {
 	const [recipes, setRecipes] = useState([]);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [currentRecipes, setCurrentRecipes] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	const recipesPerPage = 8; // 2 rows of 4 recipes
@@ -18,8 +19,10 @@ const RecipesList = ({ limit = null }) => {
 		const fetchRecipes = async () => {
 			setLoading(true);
 			try {
-				// Simulate API call
-				setRecipes(data.recipes);
+				const data = await api
+					.get(import.meta.env.VITE_RESTFUL_API_RECIPES)
+					.then((response) => response.data);
+				setRecipes(data.data);
 			} catch (error) {
 				console.error("Error fetching recipes:", error);
 			}
@@ -32,11 +35,20 @@ const RecipesList = ({ limit = null }) => {
 	// Get current recipes
 	const indexOfLastRecipe = currentPage * recipesPerPage;
 	const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-	let currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-	if (limit !== null)
-		currentRecipes = recipes
-			.slice(0, limit)
-			.sort((a, b) => a.rating > b.rating);
+
+	useEffect(() => {
+		if (recipes.length > 0) {
+			let tmpCrrentRecipes = recipes.slice(
+				indexOfFirstRecipe,
+				indexOfLastRecipe
+			);
+			if (limit !== null)
+				tmpCrrentRecipes = recipes
+					.slice(0, limit)
+					.sort((a, b) => a.rating > b.rating);
+			setCurrentRecipes(tmpCrrentRecipes);
+		}
+	}, [recipes]);
 
 	// Change page
 	const paginate = (pageNumber) => setCurrentPage(pageNumber);

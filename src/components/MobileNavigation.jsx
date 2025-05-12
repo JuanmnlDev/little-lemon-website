@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { IoMdCloseCircleOutline, IoMdMenu } from "react-icons/io";
+import UserNavigation from "./UserNavigation";
 
 const MobileNavigation = () => {
 	const [open, setOpen] = useState(false); // Start with the menu closed
@@ -55,6 +56,7 @@ const MobileNavigation = () => {
 						</li>
 					</ul>
 				</nav>
+				<UserNavigation />
 			</div>
 		</>
 	);

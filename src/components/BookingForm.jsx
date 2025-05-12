@@ -1,16 +1,25 @@
 import { useState } from "react";
-import { useReservationContext } from "../GlobalContext";
 import tables from "../data/tables.json";
+import {
+	selectIsAuthenticated,
+	selectUserProfile,
+	selectCurrentUser,
+} from "../slice/userSlice";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import "../styles/BookingForm.css";
+import api from "../api/axios";
 
 // eslint-disable-next-line react/prop-types
 const BookingForm = ({ id = null }) => {
-	const { state, dispatch } = useReservationContext(); // Access the dispatch function
 	const [success, setSuccess] = useState(false);
+	const isAuthenticated = useSelector(selectIsAuthenticated);
+	const userProfile = useSelector(selectUserProfile);
+	const currentUser = useSelector(selectCurrentUser);
 	const [formData, setFormData] = useState({
-		name: "",
-		email: "",
-		date: "",
+		name: `${userProfile.first_name} ${userProfile.last_name}`,
+		email: currentUser.email,
+		date: new Date().toISOString().split("T")[0],
 		time: "",
 		guests: "2",
 		tableId: id !== null ? id : 1,
@@ -36,21 +45,6 @@ const BookingForm = ({ id = null }) => {
 			newErrors.time = "Time is required";
 		}
 
-		// Check for conflicting reservations
-		if (state.reservations !== undefined) {
-			const isConflict = state.reservations.some(
-				(reservation) =>
-					reservation.date === formData.date &&
-					reservation.time === formData.time &&
-					reservation.tableId === formData.tableId
-			);
-
-			if (isConflict) {
-				newErrors.conflict =
-					"This table is already reserved at the selected time.";
-			}
-		}
-
 		return newErrors;
 	};
 
@@ -67,18 +61,33 @@ const BookingForm = ({ id = null }) => {
 		const validationErrors = validateForm();
 
 		if (Object.keys(validationErrors).length === 0) {
-			// Dispatch the reservation to the global state
-			dispatch({ type: "ADD_RESERVATION", payload: formData });
-
-			setSuccess(true);
+			const data = new FormData();
+			data.append("user_id", currentUser.id);
+			data.append("date_time", `${formData.date} ${formData.time}`);
+			data.append("table_id", formData.tableId);
+			data.append("guests", formData.guests);
+			data.append("occasion", formData.occasion);
+			api
+				.post(import.meta.env.VITE_RESTFUL_API_BOOKING, data, {
+					headers: { "Content-Type": "multipart/form-data" },
+				})
+				.then((response) => response.data)
+				.then((data) => {
+					if (data.status === 200) {
+						setSuccess(true);
+					} else {
+						setErrors({ form: "Failed to create reservation" });
+					}
+				});
 
 			// Reset form
 			setFormData({
-				name: "",
-				email: "",
-				date: "",
+				name: `${userProfile.first_name} ${userProfile.last_name}`,
+				email: currentUser.email,
+				date: new Date().toISOString().split("T")[0],
 				time: "",
 				guests: "2",
+				tableId: id !== null ? id : 1,
 				occasion: "regular",
 			});
 		} else {
@@ -90,144 +99,153 @@ const BookingForm = ({ id = null }) => {
 		<div className="booking-form-container">
 			{!success ? (
 				<>
-					<h1>Reserve a Table</h1>
-					<form onSubmit={handleSubmit} noValidate>
-						<div className="form-group">
-							<label htmlFor="name">Name:</label>
-							<input
-								type="text"
-								id="name"
-								name="name"
-								value={formData.name}
-								onChange={handleInputChange}
-								aria-label="Full name"
-								aria-required="true"
-								aria-invalid={!!errors.name}
-							/>
-							{errors.name && (
-								<span className="error" role="alert">
-									{errors.name}
-								</span>
-							)}
-						</div>
+					<h1 className="text-center">Reserve a Table</h1>
+					{isAuthenticated ? (
+						<form onSubmit={handleSubmit} noValidate>
+							<div className="form-group">
+								<label htmlFor="name">Name:</label>
+								<input
+									type="text"
+									id="name"
+									name="name"
+									value={formData.name}
+									onChange={handleInputChange}
+									aria-label="Full name"
+									aria-required="true"
+									aria-invalid={!!errors.name}
+								/>
+								{errors.name && (
+									<span className="error" role="alert">
+										{errors.name}
+									</span>
+								)}
+							</div>
 
-						<div className="form-group">
-							<label htmlFor="email">Email:</label>
-							<input
-								type="email"
-								id="email"
-								name="email"
-								value={formData.email}
-								onChange={handleInputChange}
-								aria-label="Email address"
-								aria-required="true"
-								aria-invalid={!!errors.email}
-							/>
-							{errors.email && (
-								<span className="error" role="alert">
-									{errors.email}
-								</span>
-							)}
-						</div>
+							<div className="form-group">
+								<label htmlFor="email">Email:</label>
+								<input
+									type="email"
+									id="email"
+									name="email"
+									value={formData.email}
+									onChange={handleInputChange}
+									aria-label="Email address"
+									aria-required="true"
+									aria-invalid={!!errors.email}
+								/>
+								{errors.email && (
+									<span className="error" role="alert">
+										{errors.email}
+									</span>
+								)}
+							</div>
 
-						<div className="form-group">
-							<label htmlFor="date">Date:</label>
-							<input
-								type="date"
-								id="date"
-								name="date"
-								value={formData.date}
-								onChange={handleInputChange}
-								min={new Date().toISOString().split("T")[0]}
-								aria-label="Reservation date"
-								aria-required="true"
-								aria-invalid={!!errors.date}
-							/>
-							{errors.date && (
-								<span className="error" role="alert">
-									{errors.date}
-								</span>
-							)}
-						</div>
+							<div className="form-group">
+								<label htmlFor="date">Date:</label>
+								<input
+									type="date"
+									id="date"
+									name="date"
+									value={formData.date}
+									onChange={handleInputChange}
+									min={new Date().toISOString().split("T")[0]}
+									aria-label="Reservation date"
+									aria-required="true"
+									aria-invalid={!!errors.date}
+								/>
+								{errors.date && (
+									<span className="error" role="alert">
+										{errors.date}
+									</span>
+								)}
+							</div>
 
-						<div className="form-group">
-							<label htmlFor="time">Time:</label>
-							<input
-								type="time"
-								id="time"
-								name="time"
-								defaultValue={formData.time}
-								onChange={handleInputChange}
-								aria-label="Reservation time"
-								aria-required="true"
-								aria-invalid={!!errors.time}
-							/>
-							{errors.time && (
-								<span className="error" role="alert">
-									{errors.time}
-								</span>
-							)}
-						</div>
+							<div className="form-group">
+								<label htmlFor="time">Time:</label>
+								<input
+									type="time"
+									id="time"
+									name="time"
+									defaultValue={formData.time}
+									onChange={handleInputChange}
+									aria-label="Reservation time"
+									aria-required="true"
+									aria-invalid={!!errors.time}
+								/>
+								{errors.time && (
+									<span className="error" role="alert">
+										{errors.time}
+									</span>
+								)}
+							</div>
 
-						<div className="form-group">
-							<label htmlFor="table">Table</label>
-							<select
-								id="table"
-								name="table"
-								value={formData.tableId}
-								onChange={handleInputChange}
-								aria-label="Table id"
+							<div className="form-group">
+								<label htmlFor="table">Table</label>
+								<select
+									id="table"
+									name="table"
+									value={formData.tableId}
+									onChange={handleInputChange}
+									aria-label="Table id"
+								>
+									{tables.tables.map((table) => (
+										<option key={`table-${table.id}`} value={table.id}>
+											{table.title}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div className="form-group">
+								<label htmlFor="guests">Number of Guests:</label>
+								<select
+									id="guests"
+									name="guests"
+									value={formData.guests}
+									onChange={handleInputChange}
+									aria-label="Number of guests"
+								>
+									{[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+										<option key={num} value={num}>
+											{num}
+										</option>
+									))}
+								</select>
+							</div>
+
+							<div className="form-group">
+								<label htmlFor="occasion">Occasion:</label>
+								<select
+									id="occasion"
+									name="occasion"
+									value={formData.occasion}
+									onChange={handleInputChange}
+									aria-label="Occasion"
+								>
+									<option value="regular">Regular</option>
+									<option value="birthday">Birthday</option>
+									<option value="anniversary">Anniversary</option>
+									<option value="business">Business</option>
+								</select>
+							</div>
+
+							<button
+								type="submit"
+								aria-label="Submit reservation"
+								className="btn btn-primary w-full font-bold text-lg"
+								role="button"
 							>
-								{tables.tables.map((table) => (
-									<option key={`table-${table.id}`} value={table.id}>
-										{table.title}
-									</option>
-								))}
-							</select>
-						</div>
-
-						<div className="form-group">
-							<label htmlFor="guests">Number of Guests:</label>
-							<select
-								id="guests"
-								name="guests"
-								value={formData.guests}
-								onChange={handleInputChange}
-								aria-label="Number of guests"
-							>
-								{[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-									<option key={num} value={num}>
-										{num}
-									</option>
-								))}
-							</select>
-						</div>
-
-						<div className="form-group">
-							<label htmlFor="occasion">Occasion:</label>
-							<select
-								id="occasion"
-								name="occasion"
-								value={formData.occasion}
-								onChange={handleInputChange}
-								aria-label="Occasion"
-							>
-								<option value="regular">Regular</option>
-								<option value="birthday">Birthday</option>
-								<option value="anniversary">Anniversary</option>
-								<option value="business">Business</option>
-							</select>
-						</div>
-
-						<button
-							type="submit"
-							aria-label="Submit reservation"
-							className="btn btn-primary w-full font-bold text-lg"
-							role="button"
+								Reserve Table
+							</button>
+						</form>
+					) : (
+						<Link
+							to="/login"
+							className="btn btn-primary w-[200px] font-bold text-lg px-4 text-center mx-auto mx-auto block leading-2"
 						>
-							Reserve Table
-						</button>
-					</form>
+							Login to reserve a table
+						</Link>
+					)}
 				</>
 			) : (
 				<div className="success-message bg-green-100 p-4 rounded-md mt-4">

@@ -1,8 +1,11 @@
 import { IoMdCart } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useReservationContext } from "../GlobalContext";
+import UserNavigation from "./UserNavigation";
+
 const Navigation = () => {
 	const { state } = useReservationContext(); // Access the dispatch function
+
 	return (
 		<div className="navigation flex py-6">
 			{/* main navigation */}
@@ -32,6 +35,7 @@ const Navigation = () => {
 							</span>
 						</Link>
 					</li>
+					<UserNavigation />
 				</ul>
 			</nav>
 		</div>

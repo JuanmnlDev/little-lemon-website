@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../slice/userSlice";
 import api from "../api/axios";
@@ -38,17 +38,23 @@ export default function Login() {
 
 		setIsLoading(true);
 		try {
+			// login request
 			const response = await api.post(
 				import.meta.env.VITE_RESTFUL_API_LOGIN,
 				formData
 			);
+
 			// Dispatch to Redux instead of using localStorage
 			dispatch(
 				setCredentials({
 					user: response.data.user,
 					token: response.data.token,
+					profile: response.data.profile[1],
 				})
 			);
+
+			// profile request
+
 			navigate("/"); // Redirect to home after login
 		} catch (error) {
 			setErrors({
@@ -88,7 +94,7 @@ export default function Login() {
 									onChange={handleChange}
 									className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
 										errors.email ? "border-red-300" : "border-gray-300"
-									} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+									} placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
 									placeholder="Email address"
 								/>
 								{errors.email && (
@@ -108,7 +114,7 @@ export default function Login() {
 									onChange={handleChange}
 									className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
 										errors.password ? "border-red-300" : "border-gray-300"
-									} placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+									} placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
 									placeholder="Password"
 								/>
 								{errors.password && (
@@ -121,20 +127,12 @@ export default function Login() {
 							<button
 								type="submit"
 								disabled={isLoading}
-								className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
+								className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-green-400"
 							>
 								{isLoading ? "Signing in..." : "Sign in"}
 							</button>
 						</div>
 					</form>
-					{/* Or register */}
-					<p className="text-center">
-						Or{" "}
-						<Link className="underline" to="/register">
-							register
-						</Link>{" "}
-						if you do not have account.
-					</p>
 				</div>
 			</div>
 		</Main>
