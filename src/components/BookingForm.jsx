@@ -4,11 +4,12 @@ import {
 	selectIsAuthenticated,
 	selectUserProfile,
 	selectCurrentUser,
+	selectCurrentToken,
 } from "../slice/userSlice";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import "../styles/BookingForm.css";
 import api from "../api/axios";
+import "../styles/BookingForm.css";
 
 // eslint-disable-next-line react/prop-types
 const BookingForm = ({ id = null }) => {
@@ -16,9 +17,12 @@ const BookingForm = ({ id = null }) => {
 	const isAuthenticated = useSelector(selectIsAuthenticated);
 	const userProfile = useSelector(selectUserProfile);
 	const currentUser = useSelector(selectCurrentUser);
+	const userToken = useSelector(selectCurrentToken);
 	const [formData, setFormData] = useState({
-		name: `${userProfile.first_name} ${userProfile.last_name}`,
-		email: currentUser.email,
+		name: isAuthenticated
+			? `${userProfile.first_name} ${userProfile.last_name}`
+			: "",
+		email: isAuthenticated ? currentUser.email : "",
 		date: new Date().toISOString().split("T")[0],
 		time: "",
 		guests: "2",
@@ -63,17 +67,20 @@ const BookingForm = ({ id = null }) => {
 		if (Object.keys(validationErrors).length === 0) {
 			const data = new FormData();
 			data.append("user_id", currentUser.id);
-			data.append("date_time", `${formData.date} ${formData.time}`);
+			data.append("day_time", `${formData.date} ${formData.time}`);
 			data.append("table_id", formData.tableId);
 			data.append("guests", formData.guests);
 			data.append("occasion", formData.occasion);
 			api
 				.post(import.meta.env.VITE_RESTFUL_API_BOOKING, data, {
-					headers: { "Content-Type": "multipart/form-data" },
+					headers: {
+						"Content-Type": "multipart/form-data",
+						Authorization: `Bearer ${userToken}`,
+					},
 				})
 				.then((response) => response.data)
 				.then((data) => {
-					if (data.status === 200) {
+					if (data.success) {
 						setSuccess(true);
 					} else {
 						setErrors({ form: "Failed to create reservation" });

@@ -49,7 +49,7 @@ export default function Login() {
 				setCredentials({
 					user: response.data.user,
 					token: response.data.token,
-					profile: response.data.profile[1],
+					profile: response.data.profile[0],
 				})
 			);
 
