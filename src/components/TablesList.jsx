@@ -1,8 +1,9 @@
 // pages/Tables.jsx
 import { useState, useEffect } from "react";
 import TableCard from "../components/TableCard";
-import "../styles/Tables.css";
 import api from "../api/axios";
+import data from "../data/tables.json";
+import "../styles/Tables.css";
 
 // eslint-disable-next-line react/prop-types
 const TablesList = ({ limit = null }) => {
@@ -13,19 +14,26 @@ const TablesList = ({ limit = null }) => {
 
 	const tablesPerPage = 8; // 2 rows of 4 tables
 
+	const useRestFulApi = import.meta.env.VITE_RESTFUL_API_ACTIVE;
+
 	// Simulated data fetch - replace with your actual API call
 	useEffect(() => {
 		// Replace this with your actual data fetching logic
 		const fetchTables = async () => {
 			setLoading(true);
-			try {
+			if (useRestFulApi === "true") {
+				try {
+					// Simulate API call
+					const data = await api
+						.get(import.meta.env.VITE_RESTFUL_API_TABLES)
+						.then((response) => response.data);
+					setTables(data.data);
+				} catch (error) {
+					console.error("Error fetching tables:", error);
+				}
+			} else {
 				// Simulate API call
-				const data = await api
-					.get(import.meta.env.VITE_RESTFUL_API_TABLES)
-					.then((response) => response.data);
-				setTables(data.data);
-			} catch (error) {
-				console.error("Error fetching tables:", error);
+				setTables(data.tables);
 			}
 			setLoading(false);
 		};

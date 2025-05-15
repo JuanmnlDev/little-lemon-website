@@ -1,34 +1,9 @@
-import { useEffect, useState } from "react";
-import { selectCurrentToken } from "../slice/userSlice";
-import Main from "../layout/Main";
-import api from "../api/axios";
+import { selectAllBookings } from "../slice/bookingSlice";
 import { useSelector } from "react-redux";
+import Main from "../layout/Main";
 
 const Reservations = () => {
-	const userToken = useSelector(selectCurrentToken);
-	const [userReservations, setUserReservations] = useState([]);
-	useEffect(() => {
-		const fetchReservations = async () => {
-			try {
-				const response = await api
-					.get(import.meta.env.VITE_RESTFUL_API_USER_RESERVATIONS, {
-						headers: {
-							"Content-Type": "multipart/form-data",
-							Authorization: `Bearer ${userToken}`,
-						},
-					})
-					.then((response) => response.data);
-				if (!response.success) {
-					throw new Error("Network response was not ok");
-				}
-				const data = await response.message;
-				setUserReservations(data);
-			} catch (error) {
-				console.error("Error fetching reservations:", error);
-			}
-		};
-		fetchReservations();
-	}, []);
+	const userReservations = useSelector(selectAllBookings);
 	return (
 		<Main>
 			<div className="container mx-auto py-10">
@@ -38,19 +13,22 @@ const Reservations = () => {
 						{userReservations.map((reservation, index) => (
 							<div
 								key={index}
-								className="reservation-item bg-white shadow-md rounded-lg p-6 border border-gray-200"
+								className="reservation-item bg-white shadow-md rounded-lg p-6 border border-gray-200 relative"
 							>
 								<h2 className="text-xl font-semibold text-gray-800 mb-2">
-									Reservation {reservation.id}
+									Reservation {index + 1}
 								</h2>
 								<p className="text-gray-600">
-									<strong>Date / Time:</strong> {reservation.day_time}
+									<strong>Email:</strong> {reservation.email}
+								</p>
+								<p className="text-gray-600">
+									<strong>Date / Time:</strong> {reservation.dateTime}
 								</p>
 								<p className="text-gray-600">
 									<strong>Guests:</strong> {reservation.guests}
 								</p>
 								<p className="text-gray-600">
-									<strong>Occasion:</strong> {reservation.ocasion}
+									<strong>Occasion:</strong> {reservation.occasion}
 								</p>
 							</div>
 						))}

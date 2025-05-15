@@ -22,7 +22,7 @@ const Home = () => {
 					<h2 className="mb-10 mt-30 text-center">Our tables</h2>
 					<TablesList limit={4} />
 					<a
-						href="/recipes"
+						href="/our-tables"
 						className="btn btn-secondary mx-auto block w-48 text-center"
 					>
 						See all tables

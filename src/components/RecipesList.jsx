@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import RecipeCard from "../components/RecipeCard";
 import api from "../api/axios";
+import data from "../data/recipes.json";
 import "../styles/Recipes.css";
 
 // eslint-disable-next-line react/prop-types
@@ -13,20 +14,28 @@ const RecipesList = ({ limit = null }) => {
 
 	const recipesPerPage = 8; // 2 rows of 4 recipes
 
+	const useRestFulApi = import.meta.env.VITE_RESTFUL_API_ACTIVE;
+
 	// Simulated data fetch - replace with your actual API call
 	useEffect(() => {
 		// Replace this with your actual data fetching logic
 		const fetchRecipes = async () => {
 			setLoading(true);
-			try {
-				const data = await api
-					.get(import.meta.env.VITE_RESTFUL_API_RECIPES)
-					.then((response) => response.data);
-				setRecipes(data.data);
-			} catch (error) {
-				console.error("Error fetching recipes:", error);
+			if (useRestFulApi === "true") {
+				try {
+					const data = await api
+						.get(import.meta.env.VITE_RESTFUL_API_RECIPES)
+						.then((response) => response.data);
+					setRecipes(data.data);
+				} catch (error) {
+					console.error("Error fetching recipes:", error);
+				}
+				setLoading(false);
+			} else {
+				// Simulate API call
+				setRecipes(data.recipes);
+				setLoading(false);
 			}
-			setLoading(false);
 		};
 
 		fetchRecipes();
