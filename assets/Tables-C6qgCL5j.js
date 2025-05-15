@@ -1,0 +1,1 @@
+import{j as s}from"./index-C3KObasD.js";import{T as r}from"./TablesList-foJqEvb5.js";import{M as t}from"./Main-B5LS8WXF.js";import"./axios-BDe-SwBN.js";import"./tables-CI4XegLN.js";const l=()=>s.jsxs(t,{children:[s.jsx("h1",{className:"text-center",children:"Our Tables"}),s.jsx(r,{})]});export{l as default};

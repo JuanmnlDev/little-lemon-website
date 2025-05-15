@@ -1,0 +1,1 @@
+import{j as s}from"./index-C3KObasD.js";import{R as e}from"./RecipesList-DOe7gkki.js";import{M as r}from"./Main-B5LS8WXF.js";import"./axios-BDe-SwBN.js";const p=()=>s.jsxs(r,{children:[s.jsx("h1",{className:"text-center",children:"Our Recipes"}),s.jsx(e,{})]});export{p as default};
