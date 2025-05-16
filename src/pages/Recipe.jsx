@@ -1,4 +1,5 @@
 import { useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Main from "../layout/Main";
 
 // eslint-disable-next-line react/prop-types
@@ -22,12 +23,12 @@ const Recipe = () => {
 						currency: "USD",
 					}).format(price)}
 				</span>
-				<a
-					href="/booking"
+				<Link
+					to="/booking"
 					className="btn btn-primary mx-auto block w-48 text-center"
 				>
 					Reserve a table
-				</a>
+				</Link>
 			</article>
 		</Main>
 	);

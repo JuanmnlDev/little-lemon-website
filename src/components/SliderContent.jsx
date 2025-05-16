@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
 const SliderContent = ({ caption, image, isActive }) => {
 	return (
@@ -31,12 +32,12 @@ const SliderContent = ({ caption, image, isActive }) => {
 					className="inner-caption"
 					dangerouslySetInnerHTML={{ __html: caption }}
 				/>
-				<a
-					href="/booking"
+				<Link
+					to="/booking"
 					className="btn btn-primary block w-48 text-center mt-4"
 				>
 					Reserve a table
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

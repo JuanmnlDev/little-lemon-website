@@ -1,4 +1,5 @@
 // components/RecipeCard.jsx
+import { Link } from "react-router-dom";
 // eslint-disable-next-line react/prop-types
 const RecipeCard = ({ id, title, image, rating, description, price }) => {
 	const searchParams = `?id=${id}&title=${title}&image=${title}&description=${description}&price=${price}`;
@@ -7,7 +8,7 @@ const RecipeCard = ({ id, title, image, rating, description, price }) => {
 			<img src={image} alt={title} className="recipe-image" />
 			<div className="recipe-content">
 				<h3>
-					<a href={`/recipe${searchParams}`}>{title}</a>
+					<Link to={`/recipe${searchParams}`}>{title}</Link>
 				</h3>
 				<div className="recipe-rating">
 					{[...Array(5)].map((_, index) => (
